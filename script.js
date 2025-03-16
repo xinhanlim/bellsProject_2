@@ -67,6 +67,7 @@ window.addEventListener('load', function(){
             methodIsShort = true;
         }
 
+        
 
         if(recipeImgIsBlank == false && 
             recipeNameIsBlank == false &&
