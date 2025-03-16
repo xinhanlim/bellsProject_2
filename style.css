@@ -1,3 +1,12 @@
-body{
-    background-color: black;
+#nav{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 24px;
+}
+
+.searchInput{
+    width: 100%;
+    justify-content: center;
+    gap:8px;
 }
