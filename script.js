@@ -1,7 +1,15 @@
 window.addEventListener('load', function(){
     let submitBtn = document.querySelector(".submitRecipeBtn");
 
+    //Gather the input of user and console.log.
     submitBtn.addEventListener('click', function(){
+        let recipeImgInput = document.querySelector("#imgFormFile")
+        let recipeImg = recipeImgInput.files[0];
+        console.log(recipeImg);
+        let recipeImgURL = URL.createObjectURL(recipeImg)
+        console.log(recipeImgURL);
+
+
         let recipeNameInput = document.querySelector("input[name='recipeName']");
         let recipeName = recipeNameInput.value;
         console.log(recipeName);
