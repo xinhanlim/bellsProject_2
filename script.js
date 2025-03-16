@@ -9,6 +9,9 @@ window.addEventListener('load', function(){
         let recipeImgURL = URL.createObjectURL(recipeImg)
         console.log(recipeImgURL);
 
+        // Rules / Criteria
+        
+
 
         let recipeNameInput = document.querySelector("input[name='recipeName']");
         let recipeName = recipeNameInput.value;
