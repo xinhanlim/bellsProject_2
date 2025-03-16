@@ -1,12 +1,36 @@
-#nav{
+
+
+.navbar-nav{
     display: flex;
-    justify-content: center;
-    gap: 32px;
-    padding: 24px;
+    width: 100%;
+    gap: 24px;
+    padding: 24px 0px 24px 0px;
+}
+
+.navbarSpace{
+    display: flex;
+    width: 200px;
+}
+
+.testing1{
+    font-size: 24px;
+}
+
+.container-fluid{
+    gap: 24px;
 }
 
 .searchInput{
     width: 100%;
     justify-content: center;
     gap:8px;
+}
+
+.modalCheck{
+    padding: 0px 0px 16px 0px;
+    gap: 16px;
+}
+
+.modal-title{
+    width: 100%;
 }
