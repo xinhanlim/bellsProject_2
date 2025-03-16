@@ -1,7 +1,7 @@
 window.addEventListener('load', function(){
-    let createReceipeBtn = document.querySelector(".createRecipeBtn");
+    let submitBtn = document.querySelector(".submitRecipeBtn");
 
-    createReceipeBtn.addEventListener('click', function(){eceipe
+    submitBtn.addEventListener('click', function(){
         let recipeNameInput = document.querySelector("input[name='recipeName']");
         let recipeName = recipeNameInput.value;
         console.log(recipeName);
