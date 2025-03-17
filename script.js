@@ -13,7 +13,6 @@ window.addEventListener('load', function(){
         // ingredients: (1) must be more than 20 words (2) cannot be blank 
         let ingredientsIsBlank = false;
         // method : (1) must be more than 10 words (2) cannot be blank 
-        let methodIsShort = false;
         let methodIsBlank = false;
 
         let recipeImgInput = document.querySelector("#imgFormFile")
@@ -42,8 +41,7 @@ window.addEventListener('load', function(){
         }
 
         let introductionInput = document.querySelector("textarea[name='introduction']");
-        let introductionText = introductionInput.value
-        console.log(introductionText);
+        let introductionText = introductionInput.value;
         if(introductionText == ""){
             introductionIsBlank = true;
         }
@@ -57,20 +55,29 @@ window.addEventListener('load', function(){
 
         let ingredientsInput = document.querySelector("textarea[name='ingredients']");
         let ingredientsText = ingredientsInput.value;
-        if(ingredientsText == ''){
+        if(ingredientsText == ""){
             ingredientsIsBlank = true;
         }
-        if(ingredientsText <= 20){
+        console.log(ingredientsIsBlank);
+
+        let ingredientsIsShort = ingredientsText.length;
+        if(ingredientsIsShort <= 20){
             ingredientsIsShort = true;
+        } else {
+            ingredientsIsShort = false;
         }
 
         let methodInput = document.querySelector("textarea[name='method']");
         let methodText = methodInput.value;
-        if(methodText == ''){
+        if(methodText == ""){
             methodIsBlank = true;
         }
-        if(methodText <= 10){
+
+        let methodIsShort = methodText.length;
+        if(methodIsShort <= 20){
             methodIsShort = true;
+        } else {
+            methodIsShort = false;
         }
 
         //Error for Recipe Img
@@ -114,7 +121,37 @@ window.addEventListener('load', function(){
             errorIntroIsShort.style.display = "none";
         }
 
+        //Error for Ingredients
+        let errorIngreIsBlank = document.querySelector(".errorIngreBlank")
+        let errorIngreIsShort = document.querySelector(".errorIngreShort")
 
+        if (ingredientsIsBlank == true) {
+            errorIngreIsBlank.style.display = "inline";
+            errorIngreIsShort.style.display = "none"; 
+        } else {
+            errorIngreIsBlank.style.display = "none"; 
+        }   
+        if (ingredientsIsShort && ingredientsIsBlank == false) {
+            errorIngreIsShort.style.display = "inline";
+        } else {
+            errorIngreIsShort.style.display = "none";
+        }
+
+        //Error For Method
+        let errorStepsIsBlank = document.querySelector(".errorStepsBlank")
+        let errorStepsIsShort = document.querySelector(".errorStepsShort")
+
+        if (methodIsBlank == true) {
+            errorStepsIsBlank.style.display = "inline";
+            errorStepsIsShort.style.display = "none"; 
+        } else {
+            errorStepsIsBlank.style.display = "none"; 
+        }   
+        if (methodIsShort && methodIsBlank == false) {
+            errorStepsIsShort.style.display = "inline";
+        } else {
+            errorStepsIsShort.style.display = "none";
+        }
 
         if(recipeImgIsBlank == false && 
             recipeNameIsBlank == false &&
