@@ -8,36 +8,37 @@ window.addEventListener('load', function(){
         // recipeImg : need a photo to upload
         // recipeName : (1) cannot be blank (2) must be more than 5 letters
         let recipeNameIsBlank = false;
-        let recipeNameIsShort = false;
         // introduction : (1) must be more than 10 words (2) cannot be blank 
-        let introductionIsShort = false;
         let introductionIsBlank = false;
         // ingredients: (1) must be more than 20 words (2) cannot be blank 
-        let ingredientsIsShort = false;
         let ingredientsIsBlank = false;
         // method : (1) must be more than 10 words (2) cannot be blank 
         let methodIsShort = false;
         let methodIsBlank = false;
 
         let recipeImgInput = document.querySelector("#imgFormFile")
-        let recipeImg = recipeImgInput.files[0];
-        
-        let recipeImgURL = URL.createObjectURL(recipeImg)
-        console.log(recipeImgURL);
-        if (recipeImgIsBlank = recipeImg.length === 0) {
-            console.log("No image uploaded.");
-        } else {
-            let recipeImg = recipeImgInput.files[0]; // Get the uploaded file
-            console.log("Uploaded file:", recipeImg);
+        if(recipeImgInput.files.length > 0){
+            let recipeImg = recipeImgInput.files[0];
+            let recipeImgURL = URL.createObjectURL(recipeImg);
         }
+
+        // if (recipeImgIsBlank == recipeImg.length === 0) {
+        //     console.log("No image uploaded.");
+        // } else {
+        //     let recipeImg = recipeImgInput.files[0]; // Get the uploaded file
+        //     console.log("Uploaded file:", recipeImg);
+        // }
 
         let recipeNameInput = document.querySelector("input[name='recipeName']");
         let recipeNameText = recipeNameInput.value;
         if(recipeNameText == ''){
             recipeNameIsBlank = true;
         }
-        if(recipeNameText <= 5){
+        let recipeNameIsShort = recipeNameText.length;
+        if(recipeNameIsShort <= 5 ){
             recipeNameIsShort = true;
+        } else{
+            recipeNameIsShort = false;
         }
 
         let introductionInput = document.querySelector("textarea[name='introduction']");
@@ -45,8 +46,11 @@ window.addEventListener('load', function(){
         if(introductionText == ''){
             introductionIsBlank = true;
         }
+        let introductionIsShort = introductionText.length;
         if(introductionText <= 10){
             introductionIsShort = true;
+        } else {
+            introductionIsShort = false;
         }
 
         let ingredientsInput = document.querySelector("textarea[name='ingredients']");
@@ -67,7 +71,32 @@ window.addEventListener('load', function(){
             methodIsShort = true;
         }
 
-        
+        //Error for Recipe Img
+        let recipeImgIsBlank = recipeImgInput.files.length === 0;
+        let imgUploadBlank = document.querySelector(".errorMsgUpload")
+        if(recipeImgIsBlank == true){
+            imgUploadBlank.style.display = "inline";
+        } else {
+            imgUploadBlank.style.display = "none";
+        }
+
+        //Error for Recipe Name
+        let errorNameIsBlank = document.querySelector(".errorRecipeBlank")
+        let errorNameIsShort = document.querySelector(".errorRecipeShort")
+
+        if (recipeNameIsBlank == true) {
+            errorNameIsBlank.style.display = "inline";
+            errorNameIsShort.style.display = "none"; 
+        } else {
+            errorNameIsBlank.style.display = "none"; 
+        }   
+        if (recipeNameIsShort && recipeNameIsBlank == false) {
+            errorNameIsShort.style.display = "inline";
+        } else {
+            errorNameIsShort.style.display = "none";
+        }
+
+
 
         if(recipeImgIsBlank == false && 
             recipeNameIsBlank == false &&
