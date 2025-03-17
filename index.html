@@ -47,27 +47,36 @@
                                 <div class="modal-body">
             
                                     <div class="modalCheck">                          
-                                            <label class="form-label">Upload Image</label>
+                                            <label class="form-label">Upload Image : </label>
+                                            <span class="errorMsgUpload danger" style="display: none; color:red"> Please upload a file </span>
                                             <input class="form-control" type="file" id="imgFormFile" name="recipeImg">                                        
                                     </div>
             
                                     <div class="modalCheck">
                                         <label class=" recipeName form_label">Recipe Name : </label>
+                                        <span class="errorRecipeBlank" style="display: none; color:red"> Please input a name </span>
+                                        <span class="errorRecipeShort" style="display: none; color:red"> Please input more than 5 characters </span>
                                         <input type="text" class="modal-title" id="staticBackdropLabel" name="recipeName">
                                     </div>
             
                                     <div class="modalCheck">
                                             <label class="introduction form-label">Introduction </label>
+                                            <span class="errorIntroBlank" style="display: none; color:red"> Please input an introduction </span>
+                                            <span class="errorIntroShort" style="display: none; color:red"> Please input more than 10 characters </span>
                                             <textarea class="form-control" id="introductionInput" name="introduction" rows="3"></textarea>
                                     </div>
             
                                     <div class="modalCheck">
                                             <label class="ingredients form-label">Ingredients Required : </label>
+                                            <span class="errorIngreBlank" style="display: none; color:red""> Please input the list of the ingredients </span>
+                                            <span class="errorIngreShort" style="display: none; color:red"> Please input more than 10 characters </span>
                                             <textarea class="form-control" id="ingredientsInput" name="ingredients" rows="3"></textarea>
                                     </div>
             
                                     <div class="modalCheck">
                                             <label class="method form-label">What are the steps required?</label>
+                                            <span class="errorStepsBlank" style="display: none; color:red"> Please input the steps required </span>
+                                            <span class="errorStepsShort" style="display: none; color:red"> Please input more than 10 characters </span>
                                             <textarea class="form-control" id="methodInput" name="method" rows="3"></textarea>
                                     </div>
             
