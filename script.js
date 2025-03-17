@@ -42,12 +42,14 @@ window.addEventListener('load', function(){
         }
 
         let introductionInput = document.querySelector("textarea[name='introduction']");
-        let introductionText = introductionInput.value;
-        if(introductionText == ''){
+        let introductionText = introductionInput.value
+        console.log(introductionText);
+        if(introductionText == ""){
             introductionIsBlank = true;
         }
+        console.log(introductionIsBlank)
         let introductionIsShort = introductionText.length;
-        if(introductionText <= 10){
+        if(introductionIsShort <= 10){
             introductionIsShort = true;
         } else {
             introductionIsShort = false;
@@ -81,19 +83,35 @@ window.addEventListener('load', function(){
         }
 
         //Error for Recipe Name
-        let errorNameIsBlank = document.querySelector(".errorRecipeBlank")
-        let errorNameIsShort = document.querySelector(".errorRecipeShort")
+        let errorRecipeIsBlank = document.querySelector(".errorRecipeBlank")
+        let errorRecipeIsShort = document.querySelector(".errorRecipeShort")
 
         if (recipeNameIsBlank == true) {
-            errorNameIsBlank.style.display = "inline";
-            errorNameIsShort.style.display = "none"; 
+            errorRecipeIsBlank.style.display = "inline";
+            errorRecipeIsShort.style.display = "none"; 
         } else {
-            errorNameIsBlank.style.display = "none"; 
+            errorRecipeIsBlank.style.display = "none"; 
         }   
         if (recipeNameIsShort && recipeNameIsBlank == false) {
-            errorNameIsShort.style.display = "inline";
+            errorRecipeIsShort.style.display = "inline";
         } else {
-            errorNameIsShort.style.display = "none";
+            errorRecipeIsShort.style.display = "none";
+        }
+
+        // Error for Introduction
+        let errorIntroIsBlank = document.querySelector(".errorIntroBlank")
+        let errorIntroIsShort = document.querySelector(".errorIntroShort")
+
+        if (introductionIsBlank == true) {
+            errorIntroIsBlank.style.display = "inline";
+            errorIntroIsShort.style.display = "none"; 
+        } else {
+            errorIntroIsBlank.style.display = "none"; 
+        }   
+        if (introductionIsShort && introductionIsBlank == false) {
+            errorIntroIsShort.style.display = "inline";
+        } else {
+            errorIntroIsShort.style.display = "none";
         }
 
 
