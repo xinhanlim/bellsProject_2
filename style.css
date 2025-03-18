@@ -33,3 +33,12 @@
 .modal-title{
     width: 100%;
 }
+
+.recipeContainer{
+    padding: 16px 16px;
+}
+
+.infoSpacing{
+    line-height: 12px;
+    padding: 16px 0px;
+}
