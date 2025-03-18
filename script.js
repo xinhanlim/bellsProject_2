@@ -1,9 +1,34 @@
+    
+    let JSONBIN_ACCESS_KEY = "$2a$10$dvPY3zfnrWI885nGfizRDeMgUCOjYIj7Ly683h2DD0HATVZjJiZt."
+
+
 window.addEventListener('load', function(){
 
     const JSONBIN_ROOT_URL = "https://api.jsonbin.io/v3";
+    const BIN_ID = "67d9218e8561e97a50ee64b9";
 
+    function GET_SPECIFIC_BIN_URL(binId){
+        return JSONBIN_ROOT_URL + "/b/" + binId;
+    }
 
+       async function importFromJSONBIN() {
+            let dataFromJSONBIN = await fetch(GET_SPECIFIC_BIN_URL(BIN_ID));
+            dataFromJSONBIN = await dataFromJSONBIN.json();
+            recipe = dataFromJSONBIN.record.recipe;
+            console.log(recipe);
+            displayRecipe();
 
+        }
+
+        async function exportToJSONBIN() {
+            let dataFromJSONBIN = await fetch(GET_SPECIFIC_BIN_URL(BIN_ID), {
+                method: '',
+                headers: {},
+                body:{}
+            })
+        }
+
+        importFromJSONBIN();
 
 
 
