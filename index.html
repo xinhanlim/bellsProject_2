@@ -29,7 +29,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <form class="d-flex searchInput" role="search">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <input id="searchInput" class="form-control" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <button type="button" class="btn btn-primary createReceipeBtn" data-bs-toggle="modal"
@@ -45,13 +45,13 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-            
-                                    <div class="modalCheck">                          
+
+                                    <input type="hidden" name="recipeId" />
+                                    <!-- <div class="modalCheck">                          
                                             <label class="form-label">Upload Image : </label>
                                             <span class="errorMsgUpload danger" style="display: none; color:red"> Please upload a file </span>
                                             <input class="form-control" type="file" id="imgFormFile" name="recipeImg">                                        
-                                    </div>
-            
+                                    </div> -->
                                     <div class="modalCheck">
                                         <label class="recipeName form_label">Recipe Name : </label>
                                         <span class="errorRecipeBlank" style="display: none; color:red;"> Please input a name </span>
@@ -101,6 +101,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
         <script src="script.js"></script>
+
     
 </body>
 </html>
