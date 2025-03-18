@@ -4,6 +4,7 @@
 
 window.addEventListener('load', function(){
 
+    let recipe = [];
     const JSONBIN_ROOT_URL = "https://api.jsonbin.io/v3";
     const BIN_ID = "67d9218e8561e97a50ee64b9";
 
@@ -22,22 +23,29 @@ window.addEventListener('load', function(){
 
         async function exportToJSONBIN() {
             let dataFromJSONBIN = await fetch(GET_SPECIFIC_BIN_URL(BIN_ID), {
-                method: '',
-                headers: {},
-                body:{}
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'X-Access-Key' : JSONBIN_ACCESS_KEY
+
+                },
+                body: JSON.stringify({
+                    recipe: recipe,
+                }),
             })
         }
 
         importFromJSONBIN();
 
-
-
-
-    let recipe = [];
     let globalId =0;
 
     function displayRecipe(){
         document.getElementById("recipeArea").innerHTML = "";
+
+        // let filteredRecipes = recipe.filter(recipe =>
+        //     recipe.recipeName.toLowerCase().includes(filterText.toLowerCase())
+        // );
+
         for (let i = 0; i < recipe.length; i++){
             let currentRecipeInfo = recipe[i];
             let newRecipe = `<div class="card" style="width: 18rem;">
@@ -88,19 +96,23 @@ window.addEventListener('load', function(){
                     }
                 })
             }
+
         }
-    }
+    }   
+
 
     function createRecipe(recipeName, introduction, ingredients, method) {
         let newRecipe = {
-            id: globalId,
+            id: globalId++,
             recipeName,
             introduction,
             ingredients,
             method
         }
-        globalId += 1
-        return newRecipe;
+        recipe.push(newRecipe);
+
+        exportToJSONBIN();
+        displayRecipe();
     }
 
     function editRecipeForm(inputId){
@@ -129,6 +141,7 @@ window.addEventListener('load', function(){
             recipe[idx].introduction = inputIntroduction;
             recipe[idx].ingredients = inputIngredients;
             recipe[idx].method = inputMethod;
+            exportToJSONBIN();
         }
         displayRecipe();
     }
@@ -138,6 +151,8 @@ window.addEventListener('load', function(){
             return null;
         } else {
             recipe.splice(idx,1)
+
+            exportToJSONBIN();
         }
         displayRecipe();
     }
