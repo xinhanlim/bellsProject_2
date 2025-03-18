@@ -89,7 +89,7 @@ window.addEventListener('load', function(){
             let recipeList = document.getElementById("recipeArea")
             recipeList.innerHTML += newRecipe;
             }
-            
+
             let deleteRecipeButtons = document.getElementsByClassName("deleteRecipeButton");
             console.log(deleteRecipeButtons)
             for(let i=0; i < deleteRecipeButtons.length; i++){
@@ -113,6 +113,50 @@ window.addEventListener('load', function(){
 
         }
     }   
+    // GOT THIS FROM CHATGPT , STILL DONT UNDERSTAND WHAATS r.recipeName
+    document.getElementById("searchInput").addEventListener("input", function () {
+        let searchQuery = this.value.toLowerCase();
+        let filteredRecipes = recipe.filter(recipeItem => recipeItem.recipeName.toLowerCase().includes(searchQuery));
+        
+        // Use the new function to display filtered results
+        displayFilteredRecipes(filteredRecipes);
+    });
+    
+    function displayFilteredRecipes(filteredRecipes) {
+        let recipeContainer = document.getElementById("recipeArea");
+        recipeContainer.innerHTML = ""; // Clear the current list
+    
+        for (let i = 0; i < filteredRecipes.length; i++) {
+            let currentRecipeInfo = filteredRecipes[i];
+    
+            let newRecipe = `<div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title poppins-semibold">${currentRecipeInfo.recipeName}</h5>
+                    <div class="infoSpacing poppins-regular">
+                        <p class="card-text poppins-semibold">Introduction: </p>
+                        <p class="card-text poppins-regular">${currentRecipeInfo.introduction} </p>
+                    </div>
+                    <div class="infoSpacing poppins-regular">
+                        <p class="card-text poppins-semibold">Ingredients: </p>
+                        <p class="card-text">${currentRecipeInfo.ingredients} </p>
+                    </div>
+                    <div class="infoSpacing poppins-regular">
+                        <p class="card-text poppins-semibold">Methods: </p>
+                        <p class="card-text">${currentRecipeInfo.method}</p>
+                    </div>   
+                    <button type="button" class="btn btn-primary editRecipeButton" id="editRecipeButton-${currentRecipeInfo.id}">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-danger deleteRecipeButton" id="deleteRecipeButton-${currentRecipeInfo.id}"> 
+                        Delete
+                    </button>
+                </div>
+            </div>`;
+    
+            recipeContainer.innerHTML += newRecipe;
+        }
+    }
+    
 
 
     function createRecipe(recipeName, introduction, ingredients, method) {
@@ -161,14 +205,11 @@ window.addEventListener('load', function(){
         displayRecipe();
     }
     function deleteRecipe(inputId) {
-        let idx = recipe.findIndex(recipe => recipe.id == inputId) 
-        if(idx == -1){
-            return null;
-        } else {
-            recipe.splice(idx,1)
-
-            exportToJSONBIN();
-        }
+        recipe = recipe.filter(item => item && item.id != inputId);
+        // Optionally, reassign IDs to ensure consecutive numbering
+        recipe.forEach((item, index) => item.id = index);
+        globalId = recipe.length; // Update globalId for new additions
+        exportToJSONBIN();
         displayRecipe();
     }
     
