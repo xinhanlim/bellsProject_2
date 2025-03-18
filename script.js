@@ -1,8 +1,80 @@
 window.addEventListener('load', function(){
-    let submitBtn = document.querySelector(".submitRecipeBtn");
 
+
+    let recipe = [];
+    let globalId =0;
+
+    function displayRecipe(){
+        document.getElementById("recipeArea").innerHTML = "";
+        for (let i = 0; i < recipe.length; i++){
+            let currentRecipeInfo = recipe[i];
+            let newRecipe = `<div class="card" style="width: 18rem;">
+                <img src="${currentRecipeInfo.recipeImg}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title poppins-semibold">${currentRecipeInfo.recipeName}</h5>
+                <div class="infoSpacing poppins-regular">
+                    <p class="card-text poppins-semibold">Introduction: </p>
+                    <p class="card-text poppins-regular">${currentRecipeInfo.introduction} </p>
+                </div>
+                <div class="infoSpacing poppins-regular">
+                    <p class="card-text poppins-semibold">Ingredients: </p>
+                    <p class="card-text">${currentRecipeInfo.ingredients} </p>
+                </div>
+                <div class="infoSpacing  poppins-regular">
+                    <p class="card-text poppins-semibold">Methods: </p>
+                    <p class="card-text">${currentRecipeInfo.method}</p>
+                </div>              
+                </div>
+              </div>`;
+
+            let recipeList = document.getElementById("recipeArea")
+            recipeList.innerHTML += newRecipe;
+        }
+    }
+    
+    function createRecipe(recipeImg, recipeName, introduction, ingredients, method) {
+        let newRecipe = {
+            id: globalId,
+            recipeImg,
+            recipeName,
+            introduction,
+            ingredients,
+            method
+        }
+        globalId += 1
+        return newRecipe;
+    }
+
+    function updateRecipe(inputId, inputRecipeImg, inputRecipeName, inputIntroduction, inputIngredients, inputMethod) {
+        let idx = recipe.findIndex(recipe => recipe.id == inputId)
+
+        if(idx == -1){
+            return null;
+        } else {
+            recipe[idx].inputRecipeImg = inputRecipeImg;
+            recipe[idx].inputRecipeName = inputRecipeName;
+            recipe[idx].inputIntroduction = inputIntroduction;
+            recipe[idx].inputIngredients = inputIngredients;
+            recipe[idx].inputMethod = inputMethod;
+        }
+    }
+    function deleteRecipe(inputId) {
+        let idx = recipe.findIndex(recipe => recipe.id == inputId) 
+        if(idx == -1){
+            return null;
+        } else {
+            let tmp = recipe[recipe.length -1]
+            recipe[idx] = tmp;
+            recipe.pop()
+        }
+    }
+
+
+    let submitBtn = document.querySelector(".submitRecipeBtn");
     //Gather the input of user and console.log.
     submitBtn.addEventListener('click', function(){
+
+
 
         // Rules / Criteria
         // recipeImg : need a photo to upload
@@ -14,6 +86,8 @@ window.addEventListener('load', function(){
         let ingredientsIsBlank = false;
         // method : (1) must be more than 10 words (2) cannot be blank 
         let methodIsBlank = false;
+
+        //Clear the error List
 
         let recipeImgInput = document.querySelector("#imgFormFile")
         if(recipeImgInput.files.length > 0){
@@ -153,6 +227,7 @@ window.addEventListener('load', function(){
             errorStepsIsShort.style.display = "none";
         }
 
+
         if(recipeImgIsBlank == false && 
             recipeNameIsBlank == false &&
             recipeNameIsShort == false &&
@@ -163,12 +238,19 @@ window.addEventListener('load', function(){
             methodIsBlank == false &&
             methodIsShort == false) {
             //All information as uploaded based on requirements.
-            console.log(recipeImg);
-            console.log(recipeNameText);
-            console.log(introductionText);
-            console.log(ingredientsText);
-            console.log(methodText);
-            }
+            let newRecipe = createRecipe(
+                recipeImgInput,
+                recipeNameText,
+                introductionText,
+                ingredientsText,
+                methodText
+            );
+            recipe.push(newRecipe)
+            console.log(recipe)
+            displayRecipe();
+
+
+        }
     })
-    
+
 })
