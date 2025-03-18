@@ -113,15 +113,16 @@ window.addEventListener('load', function(){
 
         }
     }   
-    // GOT THIS FROM CHATGPT , STILL DONT UNDERSTAND WHAATS r.recipeName
     document.getElementById("searchInput").addEventListener("input", function () {
+        //get the input user type and change to lowercase to find.
         let searchQuery = this.value.toLowerCase();
+        //this is complicated. still digesting
         let filteredRecipes = recipe.filter(recipeItem => recipeItem.recipeName.toLowerCase().includes(searchQuery));
         
         // Use the new function to display filtered results
         displayFilteredRecipes(filteredRecipes);
     });
-    
+    //using the same stuff from displayrecipe
     function displayFilteredRecipes(filteredRecipes) {
         let recipeContainer = document.getElementById("recipeArea");
         recipeContainer.innerHTML = ""; // Clear the current list
