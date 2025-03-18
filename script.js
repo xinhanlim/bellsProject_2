@@ -227,7 +227,7 @@ window.addEventListener('load', function(){
             errorStepsIsShort.style.display = "none";
         }
 
-
+        
         if(recipeImgIsBlank == false && 
             recipeNameIsBlank == false &&
             recipeNameIsShort == false &&
@@ -245,10 +245,14 @@ window.addEventListener('load', function(){
                 ingredientsText,
                 methodText
             );
+
             recipe.push(newRecipe)
             console.log(recipe)
             displayRecipe();
 
+            let modal = document.querySelector(".recipeModal");
+            let preventModal = bootstrap.Modal.getInstance(modal);
+            preventModal.hide();
 
         }
     })
