@@ -36,7 +36,7 @@
                         data-bs-target="#staticBackdrop">
                         Create Recipes
                     </button>
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    <div class="modal fade recipeModal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                         aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
@@ -53,7 +53,7 @@
                                     </div>
             
                                     <div class="modalCheck">
-                                        <label class=" recipeName form_label">Recipe Name : </label>
+                                        <label class="recipeName form_label">Recipe Name : </label>
                                         <span class="errorRecipeBlank" style="display: none; color:red;"> Please input a name </span>
                                         <span class="errorRecipeShort" style="display: none; color:red;"> Please input more than 5 characters </span>
                                         <input type="text" class="modal-title" id="staticBackdropLabel" name="recipeName">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary submitRecipeBtn">Upload Recipes</button>
+                                    <button type="button" class="btn btn-primary submitRecipeBtn" >Upload Recipes</button>
                                 </div>
                             </div>
                         </div>
@@ -93,8 +93,8 @@
         </div>
       </nav>
 
-    <div id="recipeArea" class="recipeContainer">
-            <div class="row" id="recipe">
+    <div id="recipeArea" class="recipeContainer row">
+            <div id="recipe"></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
