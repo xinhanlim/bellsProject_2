@@ -12,11 +12,29 @@ window.addEventListener('load', function(){
         return JSONBIN_ROOT_URL + "/b/" + binId;
     }
 
+    let globalId = 0;
+
+    function updateGlobalId() {
+        for(let i = 0; i < recipe.length; i++){
+            if (recipe[i] && recipe[i].id !== undefined) {
+                let currentId = recipe[i].id;
+                console.log(currentId);
+                if(currentId >= globalId){
+                    globalId = currentId + 1;
+                }
+            }
+        }
+    }
+
        async function importFromJSONBIN() {
             let dataFromJSONBIN = await fetch(GET_SPECIFIC_BIN_URL(BIN_ID));
             dataFromJSONBIN = await dataFromJSONBIN.json();
-            recipe = dataFromJSONBIN.record.recipe;
-            console.log(recipe);
+            recipeFromJSONBIN = dataFromJSONBIN.record.recipe;
+            recipe = recipeFromJSONBIN;
+
+            if (recipe && recipe.length > 0) {
+                updateGlobalId();
+            }
             displayRecipe();
 
         }
@@ -37,17 +55,12 @@ window.addEventListener('load', function(){
 
         importFromJSONBIN();
 
-    let globalId =0;
-
     function displayRecipe(){
         document.getElementById("recipeArea").innerHTML = "";
 
-        // let filteredRecipes = recipe.filter(recipe =>
-        //     recipe.recipeName.toLowerCase().includes(filterText.toLowerCase())
-        // );
-
         for (let i = 0; i < recipe.length; i++){
             let currentRecipeInfo = recipe[i];
+            if (currentRecipeInfo && currentRecipeInfo.recipeName) {
             let newRecipe = `<div class="card" style="width: 18rem;">
                 <div class="card-body">
                 <h5 class="card-title poppins-semibold">${currentRecipeInfo.recipeName}</h5>
@@ -75,7 +88,8 @@ window.addEventListener('load', function(){
 
             let recipeList = document.getElementById("recipeArea")
             recipeList.innerHTML += newRecipe;
-
+            }
+            
             let deleteRecipeButtons = document.getElementsByClassName("deleteRecipeButton");
             console.log(deleteRecipeButtons)
             for(let i=0; i < deleteRecipeButtons.length; i++){
@@ -103,14 +117,15 @@ window.addEventListener('load', function(){
 
     function createRecipe(recipeName, introduction, ingredients, method) {
         let newRecipe = {
-            id: globalId++,
+            id: globalId,
             recipeName,
             introduction,
             ingredients,
             method
         }
+        
+        globalId += 1;
         recipe.push(newRecipe);
-
         exportToJSONBIN();
         displayRecipe();
     }
