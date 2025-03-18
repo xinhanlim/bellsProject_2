@@ -1,5 +1,12 @@
 window.addEventListener('load', function(){
 
+    const JSONBIN_ROOT_URL = "https://api.jsonbin.io/v3";
+
+
+
+
+
+
 
     let recipe = [];
     let globalId =0;
@@ -9,7 +16,6 @@ window.addEventListener('load', function(){
         for (let i = 0; i < recipe.length; i++){
             let currentRecipeInfo = recipe[i];
             let newRecipe = `<div class="card" style="width: 18rem;">
-                <img src="${currentRecipeInfo.recipeImg}" class="card-img-top" alt="...">
                 <div class="card-body">
                 <h5 class="card-title poppins-semibold">${currentRecipeInfo.recipeName}</h5>
                 <div class="infoSpacing poppins-regular">
@@ -23,19 +29,46 @@ window.addEventListener('load', function(){
                 <div class="infoSpacing  poppins-regular">
                     <p class="card-text poppins-semibold">Methods: </p>
                     <p class="card-text">${currentRecipeInfo.method}</p>
-                </div>              
+                </div>   
+                <button type="button" class="btn btn-primary editRecipeButton" id="editRecipeButton-${currentRecipeInfo.id}">
+                    Edit
+                </button>
+                <button type="button" class="btn btn-danger deleteRecipeButton" id="deleteRecipeButton-${currentRecipeInfo.id}"> 
+                    Delete
+                </button>
+
                 </div>
               </div>`;
 
             let recipeList = document.getElementById("recipeArea")
             recipeList.innerHTML += newRecipe;
+
+            let deleteRecipeButtons = document.getElementsByClassName("deleteRecipeButton");
+            console.log(deleteRecipeButtons)
+            for(let i=0; i < deleteRecipeButtons.length; i++){
+                deleteRecipeButtons[i].addEventListener("click", function(){
+
+                    let selectedId = this.id.split('-')[1]
+                    deleteRecipe(selectedId)
+                    displayRecipe();
+                })
+            }
+
+            let editRecipeButtons = document.getElementsByClassName('editRecipeButton');
+            for (let i = 0; i < editRecipeButtons.length; i++) {
+                editRecipeButtons[i].addEventListener("click", function (event) {
+                    if (event.target.classList.contains("editRecipeButton")) {
+                        let selectedId = event.target.id.split('-')[1];
+                        editRecipeForm(selectedId);
+                    }
+                })
+            }
         }
     }
-    
-    function createRecipe(recipeImg, recipeName, introduction, ingredients, method) {
+
+    function createRecipe(recipeName, introduction, ingredients, method) {
         let newRecipe = {
             id: globalId,
-            recipeImg,
             recipeName,
             introduction,
             ingredients,
@@ -45,29 +78,45 @@ window.addEventListener('load', function(){
         return newRecipe;
     }
 
-    function updateRecipe(inputId, inputRecipeImg, inputRecipeName, inputIntroduction, inputIngredients, inputMethod) {
+    function editRecipeForm(inputId){
+        let idx = recipe.findIndex((recipe) => recipe.id == parseInt(inputId))
+        if(idx == -1) {
+            return undefined
+        } 
+            let selectedRecipe = recipe[idx]
+            document.querySelector("input[name='recipeId']").value = selectedRecipe.id
+            document.querySelector("input[name='recipeName']").value = selectedRecipe.recipeName;
+            document.querySelector("textarea[name='introduction']").value = selectedRecipe.introduction;
+            document.querySelector("textarea[name='ingredients']").value = selectedRecipe.ingredients;
+            document.querySelector("textarea[name='method']").value = selectedRecipe.method;
+
+            let modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
+            modal.show();
+        }
+
+    function updateRecipe(inputId, inputRecipeName, inputIntroduction, inputIngredients, inputMethod) {
         let idx = recipe.findIndex(recipe => recipe.id == inputId)
 
         if(idx == -1){
             return null;
         } else {
-            recipe[idx].inputRecipeImg = inputRecipeImg;
-            recipe[idx].inputRecipeName = inputRecipeName;
-            recipe[idx].inputIntroduction = inputIntroduction;
-            recipe[idx].inputIngredients = inputIngredients;
-            recipe[idx].inputMethod = inputMethod;
+            recipe[idx].recipeName = inputRecipeName;
+            recipe[idx].introduction = inputIntroduction;
+            recipe[idx].ingredients = inputIngredients;
+            recipe[idx].method = inputMethod;
         }
+        displayRecipe();
     }
     function deleteRecipe(inputId) {
         let idx = recipe.findIndex(recipe => recipe.id == inputId) 
         if(idx == -1){
             return null;
         } else {
-            let tmp = recipe[recipe.length -1]
-            recipe[idx] = tmp;
-            recipe.pop()
+            recipe.splice(idx,1)
         }
+        displayRecipe();
     }
+    
 
 
     let submitBtn = document.querySelector(".submitRecipeBtn");
@@ -89,18 +138,13 @@ window.addEventListener('load', function(){
 
         //Clear the error List
 
-        let recipeImgInput = document.querySelector("#imgFormFile")
-        if(recipeImgInput.files.length > 0){
-            let recipeImg = recipeImgInput.files[0];
-            let recipeImgURL = URL.createObjectURL(recipeImg);
+        let recipeIdInput = document.querySelector("input[name='recipeId']");
+        let recipeId = recipeIdInput.value;
+
+        if(recipeId !== ""){
+            recipeId = parseInt(recipeId);
         }
 
-        // if (recipeImgIsBlank == recipeImg.length === 0) {
-        //     console.log("No image uploaded.");
-        // } else {
-        //     let recipeImg = recipeImgInput.files[0]; // Get the uploaded file
-        //     console.log("Uploaded file:", recipeImg);
-        // }
 
         let recipeNameInput = document.querySelector("input[name='recipeName']");
         let recipeNameText = recipeNameInput.value;
@@ -155,13 +199,13 @@ window.addEventListener('load', function(){
         }
 
         //Error for Recipe Img
-        let recipeImgIsBlank = recipeImgInput.files.length === 0;
-        let imgUploadBlank = document.querySelector(".errorMsgUpload")
-        if(recipeImgIsBlank == true){
-            imgUploadBlank.style.display = "inline";
-        } else {
-            imgUploadBlank.style.display = "none";
-        }
+        // let recipeImgIsBlank = recipeImgInput.files.length === 0;
+        // let imgUploadBlank = document.querySelector(".errorMsgUpload")
+        // if(recipeImgIsBlank == true){
+        //     imgUploadBlank.style.display = "inline";
+        // } else {
+        //     imgUploadBlank.style.display = "none";
+        // }
 
         //Error for Recipe Name
         let errorRecipeIsBlank = document.querySelector(".errorRecipeBlank")
@@ -228,7 +272,7 @@ window.addEventListener('load', function(){
         }
 
         
-        if(recipeImgIsBlank == false && 
+        if( 
             recipeNameIsBlank == false &&
             recipeNameIsShort == false &&
             introductionIsBlank == false &&
@@ -238,22 +282,35 @@ window.addEventListener('load', function(){
             methodIsBlank == false &&
             methodIsShort == false) {
             //All information as uploaded based on requirements.
-            let newRecipe = createRecipe(
-                recipeImgInput,
-                recipeNameText,
-                introductionText,
-                ingredientsText,
-                methodText
-            );
 
-            recipe.push(newRecipe)
-            console.log(recipe)
+            if(recipeId !== ""){
+                updateRecipe(
+                    recipeId,
+                    recipeNameText,
+                    introductionText,
+                    ingredientsText,
+                    methodText
+                )
+
+            } else {
+                let newRecipe = createRecipe(
+                    recipeNameText,
+                    introductionText,
+                    ingredientsText,
+                    methodText
+                );
+                recipe.push(newRecipe)
+            }
             displayRecipe();
+
+            recipeNameInput.value = "";
+            introductionInput.value = "";
+            ingredientsInput.value = "";
+            methodInput.value = "";
 
             let modal = document.querySelector(".recipeModal");
             let preventModal = bootstrap.Modal.getInstance(modal);
             preventModal.hide();
-
         }
     })
 
