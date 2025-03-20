@@ -126,7 +126,7 @@ window.addEventListener('load', function(){
     function displayFilteredRecipes(filteredRecipes) {
         let recipeContainer = document.getElementById("recipeArea");
         recipeContainer.innerHTML = ""; // Clear the current list
-    
+        //using the filter.
         for (let i = 0; i < filteredRecipes.length; i++) {
             let currentRecipeInfo = filteredRecipes[i];
     
@@ -176,7 +176,7 @@ window.addEventListener('load', function(){
     }
 
     function editRecipeForm(inputId){
-        let idx = recipe.findIndex((recipe) => recipe.id == parseInt(inputId))
+        let idx = recipe.findIndex((recipe) => recipe.id == (inputId))
         if(idx == -1) {
             return undefined
         } 
@@ -189,6 +189,13 @@ window.addEventListener('load', function(){
 
             let modal = new bootstrap.Modal(document.getElementById("staticBackdrop"));
             modal.show();
+
+            let modalStaticBackdrop = document.getElementById("staticBackdrop");
+            let modalOpen = bootstrap.Modal.getInstance(modalStaticBackdrop)
+            if (!modalOpen) {
+                modalInstance = new bootstrap.Modal(modalOpen);
+            }
+            modalInstance.show();
         }
 
     function updateRecipe(inputId, inputRecipeName, inputIntroduction, inputIngredients, inputMethod) {
@@ -204,6 +211,12 @@ window.addEventListener('load', function(){
             exportToJSONBIN();
         }
         displayRecipe();
+
+        let modalStaticBackdrop = document.getElementById("staticBackdrop");
+        let modalOpen = bootstrap.Modal.getInstance(modalStaticBackdrop);
+        if(modalOpen){
+            modalOpen.hide();
+        }
     }
     function deleteRecipe(inputId) {
         recipe = recipe.filter(item => item && item.id != inputId);
@@ -396,9 +409,10 @@ window.addEventListener('load', function(){
                     ingredientsText,
                     methodText
                 );
-                recipe.push(newRecipe)
             }
             displayRecipe();
+
+            recipeIdInput.value = "";
 
             recipeNameInput.value = "";
             introductionInput.value = "";
@@ -411,4 +425,7 @@ window.addEventListener('load', function(){
         }
     })
 
+    document.addEventListener("hidden.bs.modal", function () {
+        document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
+    });
 })
